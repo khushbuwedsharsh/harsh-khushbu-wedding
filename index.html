@@ -531,10 +531,32 @@ gu:{welcome:"પરિવારજનોના આશીર્વાદ સા�
 function langSet(l){if(!T[l])return;document.documentElement.lang=l;document.querySelectorAll("[data-i]").forEach(e=>{const k=e.dataset.i;const value=T[l][k];if(typeof value==="string"){if(k==="coupleHero"||k==="coupleCard")e.innerHTML=value;else e.textContent=value;}});document.querySelectorAll(".langs button").forEach(b=>{b.classList.toggle("active",b.dataset.lang===l);b.setAttribute("aria-pressed",String(b.dataset.lang===l));});}
 document.querySelectorAll(".langs button").forEach(b=>b.addEventListener("click",()=>langSet(b.dataset.lang)));
 const weddingAudio=document.getElementById("weddingAudio");
-const enterInvitation=document.getElementById("enterInvitation");
+const enterInvitation=document.getElementById("enterInvitation"); // Optional legacy control; may not exist in this layout.
 const revealAll=document.getElementById("revealAll");
-revealAll.addEventListener("click",async()=>{document.body.classList.add("invitation-revealed");if(weddingAudio && weddingAudio.paused){try{await weddingAudio.play();}catch(e){/* Playback may be blocked by browser settings. */}}});
-enterInvitation.addEventListener("click",async()=>{enterInvitation.classList.add("is-opening");if(weddingAudio && weddingAudio.paused){try{await weddingAudio.play();}catch(e){/* Playback may be blocked by browser settings. */}}window.setTimeout(()=>document.getElementById("invite").scrollIntoView({behavior:"smooth"}),850);});
+
+async function startWeddingMusic(){
+  if(!weddingAudio) return;
+  weddingAudio.volume=1;
+  try{
+    await weddingAudio.play();
+  }catch(error){
+    console.warn("Wedding music did not autoplay; use the visible audio player's Play control.",error);
+    // Browser policy/network can block scripted playback; the native player remains available.
+  }
+}
+if(revealAll){
+  revealAll.addEventListener("click",()=>{
+    document.body.classList.add("invitation-revealed");
+    startWeddingMusic();
+  });
+}
+if(enterInvitation){
+  enterInvitation.addEventListener("click",()=>{
+    enterInvitation.classList.add("is-opening");
+    startWeddingMusic();
+    window.setTimeout(()=>document.getElementById("invite")?.scrollIntoView({behavior:"smooth"}),850);
+  });
+}
 </script><script>
 
 // Countdown until the wedding date (12 December 2026 at 12:39 PM).
