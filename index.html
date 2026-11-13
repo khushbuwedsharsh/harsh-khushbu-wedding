@@ -300,7 +300,7 @@ body.invitation-locked { height:auto !important; min-height:100vh !important; ov
 
 <section class="section venue">
  <div class="wrap reveal">
-  <div class="eyebrow" style="text-align:center">Celebrate with us</div><h2 class="section-title">Event Venues</h2><p class="section-sub">We look forward to welcoming you at these special locations.</p>
+  <div class="eyebrow" style="text-align:center">Celebrate with us</div><h2 class="section-title">Event Venue</h2><p class="section-sub">We look forward to welcoming you at these special locations.</p>
   <div class="venue-card"><div class="venue-copy"><div class="eyebrow">Auspicious Events Venue</div><h3>Hosted by Shri Vivekanand Mohanlal Songara</h3><p>Kantheria Hanuman Road, Opposite Shri Ram Tekra, Palanpur (Banaskantha)</p><div class="venue-actions"><a class="btn" style="text-decoration:none" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Kantheria+Hanuman+Road+Opposite+Shri+Ram+Tekra+Palanpur+Banaskantha">Open location in Google Maps ↗</a></div><p><strong>Mobile:</strong> 9924722419, 8469733017</p></div></div>
   <div class="venue-card"><div class="venue-copy"><div class="eyebrow">Wedding Venue</div><h3>Shri Rameshji Champalalji Goyal</h3><p>Mangaldas Bhavan, Meghaninagar, Ahmedabad, Gujarat</p><div class="venue-actions"><a class="btn" style="text-decoration:none" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Mangaldas+Bhavan+Meghaninagar+Ahmedabad+Gujarat">Open in Google Maps ↗</a></div></div></div>
   <div class="venue-card"><div class="venue-copy"><div class="eyebrow">Reception Venue</div><h3>Tathastu Party Plot</h3><p>Opposite Polytechnic College, Dhaniyana Chokdi Road, Palanpur (Banaskantha)</p><p><strong>Sunday, 13 December 2026 · 7:00 PM</strong></p><div class="venue-actions"><a class="btn" style="text-decoration:none" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Tathastu+Party+Plot+Opposite+Polytechnic+College+Dhaniyana+Chokdi+Road+Palanpur">Open in Google Maps ↗</a></div></div></div>
@@ -395,6 +395,16 @@ function typewriteHeroShloka(){
 openBtn.addEventListener('click',()=>{curtains.classList.add('open');hero.classList.add('revealed');document.documentElement.style.overflowY='auto';document.body.style.overflowY='auto';typewriteHeroShloka();setTimeout(()=>{curtains.style.display='none'},1800);toggleMusic()});
 document.getElementById('musicBtn').addEventListener('click',toggleMusic);
 weddingAudio.addEventListener('ended',()=>{musicOn=false;document.getElementById('musicBtn').classList.remove('playing');document.getElementById('musicBtn').textContent='♪'});
+// Stop audio when the page is backgrounded or Chrome navigates away (including Back).
+function stopWeddingMusicOnExit(){
+  if(weddingAudio){weddingAudio.pause();weddingAudio.currentTime=0;}
+  musicOn=false;
+  const musicBtn=document.getElementById('musicBtn');
+  if(musicBtn){musicBtn.classList.remove('playing');musicBtn.textContent='♪';}
+}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden') stopWeddingMusicOnExit();});
+window.addEventListener('pagehide',stopWeddingMusicOnExit);
+window.addEventListener('beforeunload',stopWeddingMusicOnExit);
 
 // Reliable scratch interaction across desktop mouse, touchscreen and stylus.
 const canvas=document.getElementById('scratchCanvas'),area=document.getElementById('scratchArea');
@@ -646,7 +656,7 @@ const languageStrings = [
   ['.events .section-title','The Wedding Festivities','विवाह के उत्सव'],
   ['.events .section-sub','Every ritual tells a story; every gathering becomes a memory. We would be delighted to celebrate these precious moments with you.','हर रस्म एक कहानी है और हर मिलन एक यादगार पल। इन खास पलों को आपके साथ मनाकर हमें खुशी होगी।'],
   ['.venue .eyebrow','Join us in Ahmedabad','अहमदाबाद में हमारे साथ जुड़ें'],
-  ['.venue .section-title','The Venue','विवाह स्थल'],
+  ['.venue .section-title','Event Venue','समारोह स्थल'],
   ['.venue .section-sub','Your presence will make our celebration even more special.','आपकी उपस्थिति हमारे उत्सव को और भी खास बनाएगी।'],
   ['.venue-copy .eyebrow','Wedding venue','विवाह स्थल'],
   ['.venue-copy p:nth-of-type(2)','Please use the map for directions and check your route before leaving.','रास्ता देखने के लिए मैप का उपयोग करें और निकलने से पहले अपना मार्ग जाँच लें।'],
@@ -670,6 +680,13 @@ const languageStrings = [
   ['.footer p:first-of-type','12 · 12 · 2026 &nbsp; • &nbsp; MADE WITH LOVE','12 · 12 · 2026 &nbsp; • &nbsp; स्नेह से बनाया गया']
 ];
 const guStrings = {
+  '.gallery .eyebrow':'અમારી કહાનીની એક ઝલક',
+  '.gallery .section-title':'ફોટો ગેલેરી',
+  '.gallery .section-sub':'આ પ્રેમકથાને અનોખી બનાવતી સુંદર ક્ષણો માટે એક નાનકડી જગ્યા.',
+  '.photo:nth-child(1) .photo-label':'એક સુંદર શરૂઆત',
+  '.photo:nth-child(2) .photo-label':'હંમેશા સાથે',
+  '.photo:nth-child(3) .photo-label':'આપણો સદાયનો સાથ',
+  '.gallery-note':'દરેક તસવીર હર્ષ સોનગરા અને ખુશ્બુ ગોયલની સફરની એક મીઠી યાદ છે — કિંમતી પળોથી લઈને જીવનભરના સાથની નવી શરૂઆત સુધી. તેમનું જીવન પ્રેમ, હાસ્ય અને અખૂટ સાથથી ભરેલું રહે.',
   '.family .eyebrow':'પ્રેમ અને આશીર્વાદ સાથે', '.family .section-title':'અમારા પરિવારો',
   '.family-card:first-child .eyebrow':'વર', '.family-card:first-child p':'પુત્ર<br><strong>દક્ષાબેન અને વિવેકાનંદજી સોનગરા</strong>',
   '.family-card:last-child .eyebrow':'વધૂ', '.family-card:last-child p':'પુત્રી<br><strong>મંજુ અને રમેશજી ગોયલ</strong>',
@@ -693,6 +710,44 @@ function applyLanguage(lang) {
     if (!originalLanguageHTML.has(index)) originalLanguageHTML.set(index, el.innerHTML);
     el.innerHTML = lang === 'hi' ? hi : lang === 'gu' ? (guStrings[selector] || originalLanguageHTML.get(index)) : originalLanguageHTML.get(index);
   });
+  // Force gallery text translation using exact gallery section elements to avoid selector conflicts.
+  const galleryRoot = document.querySelector('.gallery');
+  if (galleryRoot) {
+    const galleryEyebrow = galleryRoot.querySelector('.wrap > .reveal .eyebrow');
+    const galleryHeading = galleryRoot.querySelector('.wrap > .reveal .section-title');
+    const gallerySub = galleryRoot.querySelector('.wrap > .reveal .section-sub');
+    const galleryLabels = galleryRoot.querySelectorAll('.gallery-grid .photo-label');
+    const galleryNote = galleryRoot.querySelector('.gallery-note');
+    const galleryTranslations = {
+      en: {
+        eyebrow: 'A glimpse of our story',
+        heading: 'The Photo Gallery',
+        sub: 'A little space for the moments that make this love story uniquely theirs.',
+        labels: ['A beautiful beginning', 'Together, always', 'Our forever'],
+        note: 'Every photograph holds a little piece of Harsh Songara & Khushbu Goyal’s journey — from precious memories to the beginning of a lifetime together. May their life be filled with love, laughter, and endless togetherness.'
+      },
+      hi: {
+        eyebrow: 'हमारी कहानी की एक झलक',
+        heading: 'तस्वीरों की झलक',
+        sub: 'उन खूबसूरत पलों के लिए एक छोटी-सी जगह, जो उनकी प्रेम कहानी को खास बनाते हैं।',
+        labels: ['एक खूबसूरत शुरुआत', 'हमेशा साथ-साथ', 'हमारा हमेशा का साथ'],
+        note: 'हर तस्वीर हर्ष और खुश्बु के सफ़र की एक प्यारी याद समेटे है — खूबसूरत लम्हों से लेकर जीवनभर के साथ की नई शुरुआत तक। उनके जीवन में हमेशा प्यार, हँसी और खुशियाँ बनी रहें।'
+      },
+      gu: {
+        eyebrow: 'અમારી કહાનીની એક ઝલક',
+        heading: 'ફોટો ગેલેરી',
+        sub: 'આ પ્રેમકથાને અનોખી બનાવતી સુંદર ક્ષણો માટે એક નાનકડી જગ્યા.',
+        labels: ['એક સુંદર શરૂઆત', 'હંમેશા સાથે', 'આપણો સદાયનો સાથ'],
+        note: 'દરેક તસવીર હર્ષ સોનગરા અને ખુશ્બુ ગોયલની સફરની એક મીઠી યાદ છે — કિંમતી પળોથી લઈને જીવનભરના સાથની નવી શરૂઆત સુધી. તેમનું જીવન પ્રેમ, હાસ્ય અને અખૂટ સાથથી ભરેલું રહે.'
+      }
+    };
+    const gt = galleryTranslations[lang] || galleryTranslations.en;
+    if (galleryEyebrow) galleryEyebrow.textContent = gt.eyebrow;
+    if (galleryHeading) galleryHeading.textContent = gt.heading;
+    if (gallerySub) gallerySub.textContent = gt.sub;
+    galleryLabels.forEach((label, idx) => { if (gt.labels[idx]) label.textContent = gt.labels[idx]; });
+    if (galleryNote) galleryNote.textContent = gt.note;
+  }
   // Translate every venue card and its complete detail set in Gujarati; restore originals on other languages.
   const guCardSnapshot = window.__guCardSnapshot || (window.__guCardSnapshot = {});
   const remember = (key, el) => { if (el && !(key in guCardSnapshot)) guCardSnapshot[key] = el.innerHTML; };
@@ -740,11 +795,9 @@ function applyLanguage(lang) {
     const venueSection = document.querySelector('.venue .wrap');
     if (venueSection) {
       const eyebrow = venueSection.querySelector(':scope > .eyebrow');
-      const title = venueSection.querySelector(':scope > .section-title');
       const sub = venueSection.querySelector(':scope > .section-sub');
-      remember('venueSectionEyebrow', eyebrow); remember('venueSectionTitle', title); remember('venueSectionSub', sub);
+      remember('venueSectionEyebrow', eyebrow); remember('venueSectionSub', sub);
       if (eyebrow) eyebrow.textContent = 'અમારી સાથે ઉજવણી કરો';
-      if (title) title.textContent = 'સમારંભના સ્થળો';
       if (sub) sub.textContent = 'આપનું હાર્દિક સ્વાગત છે. આ ખાસ સ્થળોએ આપની રાહ જોઈ રહ્યા છીએ.';
     }
     const invited = document.querySelector('.invited .wrap');
@@ -760,7 +813,7 @@ function applyLanguage(lang) {
   } else {
     const restoreEl = (key, el) => { if (el && guCardSnapshot[key]) el.innerHTML = guCardSnapshot[key]; };
     const venueSection = document.querySelector('.venue .wrap');
-    if (venueSection) { restoreEl('venueSectionEyebrow',venueSection.querySelector(':scope > .eyebrow')); restoreEl('venueSectionTitle',venueSection.querySelector(':scope > .section-title')); restoreEl('venueSectionSub',venueSection.querySelector(':scope > .section-sub')); }
+    if (venueSection) { restoreEl('venueSectionEyebrow',venueSection.querySelector(':scope > .eyebrow')); restoreEl('venueSectionSub',venueSection.querySelector(':scope > .section-sub')); }
     const invited = document.querySelector('.invited .wrap');
     if (invited) { const ps=invited.querySelectorAll('p'); restoreEl('invitedP0',ps[0]); restoreEl('invitedP1',ps[1]); restoreEl('invitedP2',ps[2]); }
   }
@@ -780,7 +833,7 @@ function applyLanguage(lang) {
       card.querySelectorAll('p')[2].textContent = hiDesc[i];
     } else {
       card.querySelector('.number').textContent = ['01 / FRIDAY','02 / FRIDAY','03 / FRIDAY','04 / FRIDAY','05 / FRIDAY MIDNIGHT','06 / WEDDING CEREMONY','07 / SUNDAY'][i];
-      card.querySelector('h3').textContent = ['Vinayak Pujan','Haldi','Rudu Mameru','Bandoli','Baarat Prasthan','Wedding Day','Reception'][i];
+      card.querySelector('h3').textContent = ['Vinayak Pujan','Haldi','Mamaji Ka Pyaar','Bandoli','Baarat Prasthan','Wedding Day','Reception'][i];
       card.querySelectorAll('p')[0].textContent = ['Friday, 11 December 2026','Friday, 11 December 2026','Friday, 11 December 2026','Friday, 11 December 2026','Friday, 11 December 2026','Saturday, 12 December 2026','Sunday, 13 December 2026'][i];
       card.querySelectorAll('p')[2].textContent = ['Prayers and blessings for an auspicious beginning.','A joyful celebration filled with turmeric and blessings.','A heartfelt family tradition and celebration.','An evening of celebration and festive spirit.','Departure of the wedding procession.','The sacred moment two hands join and two families become one.','Join us for an evening of warm wishes and celebration.'][i];
     }
@@ -856,7 +909,19 @@ updateLanguageChoices(currentLanguage);
  // Scrolling remains enabled on the cover page. Sections stay visually hidden until Explore is pressed.
  explore.addEventListener('click',()=>{
    unlockInvitation();
-   requestAnimationFrame(()=>intro.scrollIntoView({behavior:'smooth', block:'start'}));
+   // Chrome on Android can fail to scroll after changing overflow/display in the same frame.
+   intro.style.display='block';
+   intro.style.visibility='visible';
+   requestAnimationFrame(()=>{
+     const targetTop = intro.getBoundingClientRect().top + window.pageYOffset;
+     window.scrollTo({top: Math.max(0, targetTop), behavior:'smooth'});
+     // Fallback to an immediate native scroll if smooth scrolling is ignored.
+     setTimeout(()=> {
+       if (Math.abs(window.pageYOffset - targetTop) > 80) {
+         window.scrollTo({top: Math.max(0, targetTop), behavior:'auto'});
+       }
+     }, 700);
+   });
  });
 })();
 
